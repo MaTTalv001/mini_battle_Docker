@@ -36,3 +36,111 @@
     transform: rotate(360deg);
   }
 }
+.battle-area {
+  position: relative;
+  width: 100%;
+  /* 画面全体の幅 */
+  height: 50vh;
+  /* 画面の高さの50% */
+  background-image: url('../public/background.png');
+  background-size: cover;
+  /* 画像をエリアに合わせて拡大 */
+  background-position: center bottom;
+  /* 画像の下部をメインに表示 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* 子要素を下に寄せる */
+  align-items: center;
+}
+
+.monster-info {
+  text-align: center;
+  margin-bottom: 10px;
+  /* 画像との間隔 */
+}
+
+.monster-image {
+  max-width: 150px;
+  /* お好みでサイズ調整 */
+  margin-bottom: 20px;
+  /* 下部に余白を持たせる */
+}
+
+.player-area {
+  background-color: black;
+  color: white;
+  padding: 20px;
+}
+
+.game-log {
+  height: 100px;
+  overflow-y: auto;
+}
+.monster-info-window {
+  background-color: black;
+  /* 背景を黒に */
+  border: 2px solid white;
+  /* 白い枠線 */
+  border-radius: 5px;
+  /* 角を少し丸める */
+  padding: 10px;
+  margin-bottom: 20px;
+  /* モンスター画像との間隔 */
+  text-align: center;
+}
+
+.monster-info {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: white;
+  /* 文字色を白に */
+}
+
+.bottom-area {
+  display: flex;
+}
+
+.player-area {
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+  padding: 20px;
+  width: 200px;
+  /* プレイヤー情報エリアの幅を固定 */
+  flex-shrink: 0;
+  /* 幅が縮まないように設定 */
+}
+
+.player-defeated {
+  border: 2px solid red;
+  /* プレーヤーのHPが0以下のとき赤い枠線を表示 */
+}
+
+.game-log {
+  background-color: black;
+  border: 2px solid white;
+  color: white;
+  height: 200px;
+  /* お好みで調整 */
+  flex-grow: 10;
+  /* 残りのスペースを全て使う */
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  /* パディングを含めた幅で計算 */
+  border-left: 2px solid white;
+  /* 左側に境界線を追加 */
+}
+
+button{
+  margin: 5px;
+}
+
+.game-log-defeated {
+  border: 2px solid red;
+  /* ゲームログの枠線を赤くする */
+}
