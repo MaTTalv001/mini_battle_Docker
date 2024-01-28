@@ -4,7 +4,7 @@ import GameLog from './GameLog';
 const Battle = () => {
   const [playerHP, setPlayerHP] = useState(15);
   const [monsterHP, setMonsterHP] = useState(15);
-  const [gameLog, setGameLog] = useState([]);
+  const [gameLog, setGameLog] = useState(["モンスターが現れた！"]);
   const [isAttacking, setIsAttacking] = useState(false);  // 攻撃中かどうかを追跡
   const [showRestart, setShowRestart] = useState(false);  // 再戦ボタンの表示制御
   const [gameOver, setGameOver] = useState(false);  // ゲーム終了フラグ
@@ -85,7 +85,7 @@ const restartGame = () => {
     }
     setPlayerHP(15);
     setMonsterHP(15);
-    setGameLog([]);
+    setGameLog(["モンスターが現れた！"]);
     setShowRestart(false);
     setGameOver(false);
     setAttackTimeoutId(null);  // タイマーIDをリセット
