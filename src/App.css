@@ -43,7 +43,7 @@
   height: 50vh;
   /* 画面の高さの50% */
   background-image: url('../public/background.png');
-  background-size: cover;
+  background-size:auto;
   /* 画像をエリアに合わせて拡大 */
   background-position: center bottom;
   /* 画像の下部をメインに表示 */
@@ -64,7 +64,7 @@
 }
 
 .monster-image {
-  max-width: 150px;
+  max-width: 300px;
   /* お好みでサイズ調整 */
   margin-bottom: 20px;
   /* 下部に余白を持たせる */
@@ -102,6 +102,7 @@
 
 .bottom-area {
   display: flex;
+  width: 100%;
 }
 
 .player-area {
@@ -109,7 +110,7 @@
   color: white;
   border: 2px solid white;
   padding: 20px;
-  width: 200px;
+  width: 150px;
   /* プレイヤー情報エリアの幅を固定 */
   flex-shrink: 0;
   /* 幅が縮まないように設定 */
