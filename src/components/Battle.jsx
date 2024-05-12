@@ -92,10 +92,10 @@ const restartGame = () => {
   };
 
    return (
-  <div className="min-h-screen bg-base-100">
+  <div className="min-h-screen bg-base-100 py-10">
     {/* 上部: グラフィックコンテナ */}
-    <div className="bg-cover bg-center py-8" style={{backgroundImage: "url('/background.png')"}}>
-      <div className="container mx-auto">
+    <div className=" bg-center mx-auto py-8 max-w-4xl " style={{backgroundImage: "url('/background.png')"}}>
+      <div className="container mx-auto max-w-4xl">
         <div className="relative">
           {monsterHP > 0 && (
             <div className="bg-base-200 p-4 rounded-box mb-4 inline-block">
@@ -104,19 +104,21 @@ const restartGame = () => {
             </div>
           )}
           {monsterHP > 0 && (
-            <img src="/monster.png" alt="Monster" className="w-full md:max-w-md mx-auto" style={{maxHeight: '300px'}} />
+            <div className="aspect-w-1 aspect-h-1 mx-auto" style={{maxWidth: '300px'}}>
+              <img src="/monster.png" alt="Monster" className="object-contain" />
+            </div>
           )}
         </div>
       </div>
     </div>
 
     {/* 下部: プレイヤーウィンドウとバトルログ */}
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 max-w-4xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-4">
         {/* 左側: プレイヤー情報 */}
         <div className={`bg-base-200 p-4 rounded-box ${playerHP <= 0 ? 'opacity-50' : ''}`}>
           <div className="flex items-center mb-4">
-            <img src="/player.png" alt="Player" className="w-16 h-16 rounded-full mr-4" />
+            <img src="/player.png" alt="Player" className="w-16 h-16 rounded-xl mr-4" />
             <div>
               <h2 className="text-xl font-bold">MaTTa</h2>
               <p className="text-lg">HP: {playerHP}</p>
@@ -133,7 +135,8 @@ const restartGame = () => {
             {showRestart && (
               <button className="btn btn-accent btn-block mt-2" onClick={restartGame}>再戦</button>
             )}
-          </div>
+             </div>
+            
         </div>
 
         {/* 右側: バトルログ */}
