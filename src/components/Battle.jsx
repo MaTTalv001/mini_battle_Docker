@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import GameLog from './GameLog';
 
 const Battle = () => {
+  //データの仮置き
   const currentUser = {
     nickname: "Matta",
     latest_avatar_url: "/player.png",
@@ -16,7 +17,7 @@ const Battle = () => {
       charisma: 3,
     },
   };
-
+  //データの仮置き
   const enemy = {
     name: "魔王（開発中）",
     hp: 50,
@@ -145,7 +146,7 @@ const Battle = () => {
     setGameOver(false);
     setAttackTimeoutId(null);
   };
-
+  // 被ダメージ時に画面を揺らす
   const triggerShakeEffect = () => {
   const body = document.body;
   body.classList.add("shake-animation");
