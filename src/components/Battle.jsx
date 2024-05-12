@@ -80,6 +80,7 @@ const Battle = () => {
     } else {
       setPlayerHP(Math.max(0, playerHP - finalEnemyDamage));
       setGameLog(prevLog => [...prevLog, `モンスターの攻撃、${finalEnemyDamage}のダメージ`]);
+      triggerShakeEffect();
       if (playerHP - finalEnemyDamage <= 0) {
         setGameLog(['全滅した']);
         setShowRestart(true);
@@ -96,6 +97,7 @@ const Battle = () => {
         if (enemyHP > 0) {
           setPlayerHP(Math.max(0, playerHP - finalEnemyDamage));
           setGameLog(prevLog => [...prevLog, `モンスターの攻撃、${finalEnemyDamage}のダメージ`]);
+          triggerShakeEffect();
           if (playerHP - finalEnemyDamage <= 0) {
             setGameLog(['全滅した']);
             setShowRestart(true);
@@ -143,6 +145,16 @@ const Battle = () => {
     setGameOver(false);
     setAttackTimeoutId(null);
   };
+
+  const triggerShakeEffect = () => {
+  const body = document.body;
+  body.classList.add("shake-animation");
+
+  setTimeout(() => {
+    body.classList.remove("shake-animation");
+  }, 500); // アニメーションの時間に合わせてクラスを削除
+};
+
 
   return (
     <div className="min-h-screen bg-base-100 py-10">
