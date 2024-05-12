@@ -55,40 +55,45 @@ const Battle = () => {
     const doubleAttackChance = currentUser.latest_status.dexterity / 100;
 
     setTimeout(() => {
+    if (gameOver) return;
+
+    if (playerGoesFirst) {
+      setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage));
+      setGameLog(prevLog => [...prevLog, `プレーヤーの${attackType === 'attack' ? '攻撃' : 'まほう'}、${finalPlayerDamage}のダメージ`]);
+
+      let totalDamage = finalPlayerDamage;
+
+      if (Math.random() < doubleAttackChance) {
+        const doubleAttackDamage = finalPlayerDamage;
+        setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage - doubleAttackDamage));
+        setGameLog(prevLog => [...prevLog, `プレーヤーの2回連続攻撃発動！さらに${doubleAttackDamage}のダメージ`]);
+        totalDamage += doubleAttackDamage;
+      }
+
+      if (enemyHP - totalDamage <= 0) {
+        setGameLog(['モンスターをたおした']);
+        setShowRestart(true);
+        setGameOver(true);
+        setIsAttacking(false);
+        return;
+      }
+    } else {
+      setPlayerHP(Math.max(0, playerHP - finalEnemyDamage));
+      setGameLog(prevLog => [...prevLog, `モンスターの攻撃、${finalEnemyDamage}のダメージ`]);
+      if (playerHP - finalEnemyDamage <= 0) {
+        setGameLog(['全滅した']);
+        setShowRestart(true);
+        setGameOver(true);
+        setIsAttacking(false);
+        return;
+      }
+    }
+
+    const timeoutId = setTimeout(() => {
       if (gameOver) return;
 
       if (playerGoesFirst) {
-        setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage));
-        setGameLog(prevLog => [...prevLog, `プレーヤーの${attackType === 'attack' ? '攻撃' : 'まほう'}、${finalPlayerDamage}のダメージ`]);
-
-        if (Math.random() < doubleAttackChance) {
-          setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage * 2));
-          setGameLog(prevLog => [...prevLog, `プレーヤーの2回連続攻撃発動！さらに${finalPlayerDamage}のダメージ`]);
-        }
-
-        if (enemyHP - finalPlayerDamage <= 0) {
-          setGameLog(['モンスターをたおした']);
-          setShowRestart(true);
-          setGameOver(true);
-          setIsAttacking(false);
-          return;
-        }
-      } else {
-        setPlayerHP(Math.max(0, playerHP - finalEnemyDamage));
-        setGameLog(prevLog => [...prevLog, `モンスターの攻撃、${finalEnemyDamage}のダメージ`]);
-        if (playerHP - finalEnemyDamage <= 0) {
-          setGameLog(['全滅した']);
-          setShowRestart(true);
-          setGameOver(true);
-          setIsAttacking(false);
-          return;
-        }
-      }
-
-      const timeoutId = setTimeout(() => {
-        if (gameOver) return;
-
-        if (playerGoesFirst) {
+        if (enemyHP > 0) {
           setPlayerHP(Math.max(0, playerHP - finalEnemyDamage));
           setGameLog(prevLog => [...prevLog, `モンスターの攻撃、${finalEnemyDamage}のダメージ`]);
           if (playerHP - finalEnemyDamage <= 0) {
@@ -98,29 +103,34 @@ const Battle = () => {
             setIsAttacking(false);
             return;
           }
-        } else {
-          setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage));
-          setGameLog(prevLog => [...prevLog, `プレーヤーの${attackType === 'attack' ? '攻撃' : 'まほう'}、${finalPlayerDamage}のダメージ`]);
-
-          if (Math.random() < doubleAttackChance) {
-            setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage * 2));
-            setGameLog(prevLog => [...prevLog, `プレーヤーの2回連続攻撃発動！さらに${finalPlayerDamage}のダメージ`]);
-          }
-
-          if (enemyHP - finalPlayerDamage <= 0) {
-            setGameLog(['モンスターをたおした']);
-            setShowRestart(true);
-            setGameOver(true);
-            setIsAttacking(false);
-            return;
-          }
         }
-        setIsAttacking(false);
-      }, 1000);
+      } else {
+        setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage));
+        setGameLog(prevLog => [...prevLog, `プレーヤーの${attackType === 'attack' ? '攻撃' : 'まほう'}、${finalPlayerDamage}のダメージ`]);
 
-      setAttackTimeoutId(timeoutId);
+        let totalDamage = finalPlayerDamage;
+
+        if (Math.random() < doubleAttackChance) {
+          const doubleAttackDamage = finalPlayerDamage;
+          setEnemyHP(Math.max(0, enemyHP - finalPlayerDamage - doubleAttackDamage));
+          setGameLog(prevLog => [...prevLog, `プレーヤーの2回連続攻撃発動！さらに${doubleAttackDamage}のダメージ`]);
+          totalDamage += doubleAttackDamage;
+        }
+
+        if (enemyHP - totalDamage <= 0) {
+          setGameLog(['モンスターをたおした']);
+          setShowRestart(true);
+          setGameOver(true);
+          setIsAttacking(false);
+          return;
+        }
+      }
+      setIsAttacking(false);
     }, 1000);
-  };
+
+    setAttackTimeoutId(timeoutId);
+  }, 1000);
+};
 
   const restartGame = () => {
     if (attackTimeoutId) {
@@ -140,26 +150,23 @@ const Battle = () => {
       <div className="bg-center mx-auto py-8 max-w-4xl" style={{ backgroundImage: "url('/background.png')", backgroundPosition: 'center bottom' }}>
         <div className="container mx-auto max-w-4xl">
           <div className="relative">
-            {enemyHP > 0 && (
-              <div className="bg-base-200 p-4 rounded-box mb-4 inline-block">
-                <h2 className="text-2xl font-bold">{enemy.name}</h2>
-                <p className="text-lg">HP: {enemyHP}</p>
-              </div>
-            )}
-            {enemyHP > 0 && (
-              <div className="aspect-w-1 aspect-h-1 mx-auto" style={{maxWidth: '300px'}}>
-                <img src={enemy.enemy_url} alt="Monster" className="object-contain" />
-              </div>
-            )}
+            <div className={`bg-base-200 p-4 rounded-box mb-4 inline-block `}>
+              <h2 className="text-2xl font-bold">{enemy.name}</h2>
+              <p className="text-lg">HP: {enemyHP}</p>
+            </div>
+            <div className="aspect-w-1 aspect-h-1 mx-auto" style={{maxWidth: '300px'}}>
+              <img src={enemy.enemy_url} alt="Monster" className={`object-contain ${enemyHP <= 0 ? 'opacity-0' : ''}`} />
+            </div>
           </div>
         </div>
       </div>
 
+
       {/* 下部: プレイヤーウィンドウとバトルログ */}
-      <div className="container mx-auto py-8 max-w-4xl">
+       <div className="container mx-auto py-8 max-w-4xl">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-4">
           {/* 左側: プレイヤー情報 */}
-          <div className={`bg-base-200 p-4 rounded-box ${playerHP <= 0 ? 'opacity-50' : ''}`}>
+           <div className={`bg-base-200 p-4 rounded-box ${playerHP <= 0 ? 'opacity-50' : ''}`}>
             <div className="flex items-center mb-4">
               <img src={currentUser.latest_avatar_url} alt="Player" className="w-16 h-16 rounded-xl mr-4" />
               <div>
