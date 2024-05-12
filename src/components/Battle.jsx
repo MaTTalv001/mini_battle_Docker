@@ -94,8 +94,8 @@ const restartGame = () => {
    return (
   <div className="min-h-screen bg-base-100">
     {/* 上部: グラフィックコンテナ */}
-    <div className="bg-cover bg-center" style={{backgroundImage: "url('/background.png')"}}>
-      <div className="container mx-auto py-8">
+    <div className="bg-cover bg-center py-8" style={{backgroundImage: "url('/background.png')"}}>
+      <div className="container mx-auto">
         <div className="relative">
           {monsterHP > 0 && (
             <div className="bg-base-200 p-4 rounded-box mb-4 inline-block">
@@ -104,7 +104,7 @@ const restartGame = () => {
             </div>
           )}
           {monsterHP > 0 && (
-            <img src="/monster.png" alt="Monster" className="w-full md:max-w-md mx-auto" />
+            <img src="/monster.png" alt="Monster" className="w-full md:max-w-md mx-auto" style={{maxHeight: '300px'}} />
           )}
         </div>
       </div>
@@ -112,32 +112,32 @@ const restartGame = () => {
 
     {/* 下部: プレイヤーウィンドウとバトルログ */}
     <div className="container mx-auto py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mx-4">
         {/* 左側: プレイヤー情報 */}
         <div className={`bg-base-200 p-4 rounded-box ${playerHP <= 0 ? 'opacity-50' : ''}`}>
           <div className="flex items-center mb-4">
-            <img src="/player.png" alt="Player" className="w-20 h-20 rounded-full mr-4" />
+            <img src="/player.png" alt="Player" className="w-16 h-16 rounded-full mr-4" />
             <div>
-              <h2 className="text-2xl font-bold">MaTTa</h2>
+              <h2 className="text-xl font-bold">MaTTa</h2>
               <p className="text-lg">HP: {playerHP}</p>
             </div>
           </div>
           <div className="flex space-x-2">
             <button 
-              className={`btn btn-primary ${isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'loading btn-disabled' : ''}`}
+              className={`btn btn-primary btn-block ${isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'loading btn-disabled' : ''}`}
               onClick={attack}
               disabled={isAttacking || playerHP <= 0 || monsterHP <= 0}
             >
               {isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'たたかえない！' : 'たたかう'}
             </button>
             {showRestart && (
-              <button className="btn btn-accent" onClick={restartGame}>再戦</button>
+              <button className="btn btn-accent btn-block mt-2" onClick={restartGame}>再戦</button>
             )}
           </div>
         </div>
 
         {/* 右側: バトルログ */}
-        <div className="bg-base-200 p-4 rounded-box">
+        <div className="bg-base-200 p-4 rounded-box md:col-span-2">
           <h2 className="text-2xl font-bold mb-4">バトルログ</h2>
           <GameLog logs={gameLog} isPlayerDefeated={playerHP <= 0} />
         </div>
