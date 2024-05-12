@@ -94,12 +94,13 @@ const restartGame = () => {
    return (
   <div className="min-h-screen bg-base-100 py-10">
     {/* 上部: グラフィックコンテナ */}
-    <div className=" bg-center mx-auto py-8 max-w-4xl " style={{backgroundImage: "url('/background.png')"}}>
+    <div className="bg-center mx-auto py-8 max-w-4xl" style={{ backgroundImage: "url('/background.png')", backgroundPosition: 'center bottom' }}>
+
       <div className="container mx-auto max-w-4xl">
         <div className="relative">
           {monsterHP > 0 && (
             <div className="bg-base-200 p-4 rounded-box mb-4 inline-block">
-              <h2 className="text-2xl font-bold">らんてくん零式</h2>
+              <h2 className="text-2xl font-bold">魔王（開発中）</h2>
               <p className="text-lg">HP: {monsterHP}</p>
             </div>
           )}
@@ -133,15 +134,28 @@ const restartGame = () => {
               {isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'たたかえない！' : 'たたかう'}
             </button>
             {showRestart && (
-              <button className="btn btn-accent btn-block mt-2" onClick={restartGame}>再戦</button>
+              <div className="flex space-x-2">
+                <button className="btn btn-accent btn-block mt-2" onClick={restartGame}>再戦</button>
+                   </div>
             )}
+             </div>
+
+             <div className="flex space-x-2 pt-3">
+            <button 
+              className={`btn btn-primary btn-block ${isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'loading btn-disabled' : ''}`}
+              onClick={attack}
+              disabled={isAttacking || playerHP <= 0 || monsterHP <= 0}
+            >
+              {isAttacking || playerHP <= 0 || monsterHP <= 0 ? 'たたかえない！' : 'まほう'}
+            </button>
+    
              </div>
             
         </div>
 
         {/* 右側: バトルログ */}
         <div className="bg-base-200 p-4 rounded-box md:col-span-2">
-          <h2 className="text-2xl font-bold mb-4">バトルログ</h2>
+          <h2 className="text-2xl font-bold mb-4">ここにバトルログ（開発中）</h2>
           <GameLog logs={gameLog} isPlayerDefeated={playerHP <= 0} />
         </div>
       </div>
